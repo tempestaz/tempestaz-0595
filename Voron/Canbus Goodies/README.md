@@ -5,3 +5,9 @@ So, you have gone full CAN bus and you want to mount a PG7 cable gland on the A 
 This cover retains the alignment with the standard wiring of a V2.4. It's exactly 5mm taller and prints like the original.
 
 ![Cable cover image](Photos/Cable_cover_with_PG7.png)
+
+# Voron 2.4 Umbilical Support
+
+Want to hang that cable up high? Well this is my take at a support for the cable. 
+
+![Umbilical Support](Photos/Umbilical%20Support.png)

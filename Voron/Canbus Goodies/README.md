@@ -11,3 +11,13 @@ This cover retains the alignment with the standard wiring of a V2.4. It's exactl
 Want to hang that cable up high? Well this is my take at a support for the cable. 
 
 ![Umbilical Support](Photos/Umbilical%20Support.png)
+
+# Stealthburner Electronics door for SB2040
+
+Got one of the new Mellow SB2040's? Well the cable door stock doesn't fit very well. This mod isn't the prettiest in the world but it shure gets the job done.
+
+![Stealthburner Cable Door](Photos/Stealthburner_cable_door.jpg)
+
+And for those who like cad models...
+
+![CAD Stelahtburner Cable Door](Photos/cable_cover_stealthburner.png)

@@ -16,6 +16,8 @@ Want to hang that cable up high? Well this is my take at a support for the cable
 
 Got one of the new Mellow SB2040's? Well the cable door stock doesn't fit very well. This mod isn't the prettiest in the world but it shure gets the job done.
 
+* modified recently to add more space for a heatsink on the stepper driver.
+
 ![Stealthburner Cable Door](Photos/Stealthburner_cable_door.jpg)
 
 And for those who like cad models...

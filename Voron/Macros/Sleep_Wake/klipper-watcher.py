@@ -9,10 +9,7 @@ MOONRAKER_HOST = "http://localhost:7125"
 
 STATE_TO_MACRO = {
     "Ready": "WAKE_UP",             # printer fully initialized
-    "shutdown": "PRINTER_SHUTDOWN",
-    "error": "PRINTER_ERROR",
-    "startup": "PRINTER_STARTUP",
-    "disconnected": "PRINTER_DISCONNECTED",
+    "Printing": "PRINTER_PRINTING",
     "Idle": "PRINTER_IDLE",   
 }
 
@@ -26,45 +23,41 @@ async def call_macro(macro_name):
 async def listen_for_states():
     uri = f"ws://{MOONRAKER_HOST.split('//')[1]}/websocket"
     print("URI:", uri)
+    last_state = None
     while True:
         try:
             async with websockets.connect(uri) as ws:
                 print("Connected to Moonraker WebSocket.")
-                #await ws.send(json.dumps({
-                #    "jsonrpc": "2.0",
-                #    "method": "printer.objects.subscribe",
-                #    "params": {"objects": {"idle_timeout": ["state"]}},
-                #    "id": 714
-                #}))
                 # Send a JSON-RPC message to query the printer state
                 request = {
                     "jsonrpc": "2.0",
-                    "method": "printer.objects.subscribe", #query", #.query",  # You can use 'printer.info' as well
+                    "method": "printer.objects.subscribe", 
                     "params": {
-                    "objects": {
-                        "idle_timeout": ["state"]
+                        "objects": {
+                            "idle_timeout": ["state"]
                         }
                     },
                     "id": 99
                 }
                 await ws.send(json.dumps(request))  # Send the query as JSON
 
-                 # Wait for the response
+                # Wait for the response
                 response = await ws.recv()
-                print("Received response:", response)
+                #print("Received response:", response)
 
-                async for msg in ws:
-                    try:
-                        data = json.loads(msg)
-                        #state = data["params"][0]["printer"]["state"]
-                        state = data.get("result", {}).get("status").get("idle_timeout").get("state")
-                        print("Detected state:", state)
-                        if state in STATE_TO_MACRO:
-                            await call_macro(STATE_TO_MACRO[state])
-                    except json.JSONDecodeError:
-                        print("Error: Invalid JSON response")
-                    except (KeyError, IndexError):
-                        continue
+                #async for msg in ws:
+                try:
+                    data = json.loads(response)
+                    state = data["result"]["status"]["idle_timeout"]["state"]
+                    print("Detected state:", state)
+                    if state != last_state and state in STATE_TO_MACRO:
+                        await call_macro(STATE_TO_MACRO[state])
+                        last_state = state
+                except json.JSONDecodeError:
+                    print("Error: Invalid JSON response")
+                except (KeyError, IndexError):
+                    continue
+                await asyncio.sleep(5)  # Poll every 5 seconds
         except Exception as e:
             print("Connection error:", e)
             await asyncio.sleep(5)

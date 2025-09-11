@@ -34,7 +34,8 @@ async def get_printer_state():
             # Optionally, parse the response if you expect JSON data
             try:
                 response_data = json.loads(response)
-                printer_state = response_data.get("result", {}).get("status").get("idle_timeout").get("state")
+                #printer_state = response_data.get("result", {}).get("status").get("idle_timeout").get("state")
+                printer_state = response_data["result"]["status"]["idle_timeout"]["state"]
                 print("Printer State:", printer_state)
             except json.JSONDecodeError:
                 print("Error parsing JSON response.")
